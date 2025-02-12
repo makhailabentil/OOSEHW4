@@ -2,11 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+:root[data-theme='light'] {
+  --text-glow: #0a4747;
+  --bg-dark: #f0f0f0;
+  --border-glow: #178f8f;
+  --box-shadow-glow: #178f8f;
+  --editor-bg: rgba(255, 255, 255, 0.9);
+  --console-bg: #ffffff;
+}
+
+:root[data-theme='dark'] {
   --text-glow: #27f7f7;
   --bg-dark: #111;
   --border-glow: #3acaec;
   --box-shadow-glow: #7Cbdbd;
+  --editor-bg: rgba(20, 20, 20, 0.9);
+  --console-bg: #141414;
 }
 
 body {
@@ -16,7 +27,7 @@ body {
 }
 
 .console-box {
-  background: #141414;
+  background: var(--console-bg);
   border: 2px solid var(--border-glow);
   box-shadow: 0px 0px 15px 2px var(--box-shadow-glow) inset;
   border-radius: 5px;
@@ -35,7 +46,7 @@ body {
 
 .ql-toolbar.ql-snow {
   border: 2px solid var(--border-glow) !important;
-  background: rgba(20, 20, 20, 0.9);
+  background: var(--editor-bg);
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   box-shadow: 0px 0px 10px 1px var(--box-shadow-glow) inset;
@@ -48,7 +59,7 @@ body {
 .ql-container.ql-snow {
   border: 2px solid var(--border-glow) !important;
   border-top: none !important;
-  background: rgba(20, 20, 20, 0.9);
+  background: var(--editor-bg);
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   box-shadow: 0px 0px 10px 1px var(--box-shadow-glow) inset;
@@ -154,7 +165,7 @@ input::placeholder {
 .note-card {
   @apply relative p-4 transition-all duration-200;
   border: 1px solid var(--border-glow);
-  background: rgba(20, 20, 20, 0.7);
+  background: var(--console-bg);
   box-shadow: 0 0 10px var(--box-shadow-glow);
 }
 

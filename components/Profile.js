@@ -1,8 +1,10 @@
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
 import { useState, useRef, useEffect } from 'react';
 
 export default function Profile() {
   const { user, logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const [profileImage, setProfileImage] = useState(user?.photoURL);
@@ -29,35 +31,49 @@ export default function Profile() {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <button 
-        onClick={() => setIsOpen(!isOpen)} 
-        className="p-1 hover:opacity-80 transition-opacity"
-        title={user?.displayName || 'User'}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#27f7f7] hover:border-[#3acaec] transition-colors duration-200"
       >
         <img 
-          src={profileImage || '/default-avatar.png'} // Add a default avatar
-          alt={user?.displayName || 'User avatar'} 
-          className="w-8 h-8 rounded-full border-2 border-[#27f7f7] hover:border-[#3afafa] transition-colors"
-          onError={(e) => {
-            e.target.src = '/default-avatar.png';
-            console.log('Failed to load profile image'); // Debug log
-          }}
+          src={profileImage || '/default-avatar.png'} 
+          alt={user?.displayName || 'Profile'} 
+          className="w-full h-full object-cover"
         />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 console-box p-4 z-50 profile-dropdown">
+        <div className="absolute right-0 mt-2 w-64 console-box p-4 z-50">
           <div className="mb-4">
-            <p className="text-[#27f7f7] mb-1">{'>'} PROFILE_</p>
-            <p className="text-[#27f7f7]">{user.displayName}</p>
+            <p className="mb-1">{'>'} PROFILE_</p>
+            <p>{user.displayName}</p>
             <p className="text-sm opacity-70">{user.email}</p>
           </div>
-          <button 
-            onClick={logout}
-            className="console-button w-full text-left"
-          >
-            {'>'} LOGOUT
-          </button>
+          <div className="space-y-2">
+            <div className="flex items-center justify-between console-button px-4 py-2">
+              <span>{'>'} {theme === 'dark' ? 'DARK_MODE' : 'LIGHT_MODE'}</span>
+              <button 
+                onClick={toggleTheme}
+                className="relative inline-flex items-center h-6 rounded-full w-11 transition-colors duration-200 ease-in-out"
+                style={{
+                  backgroundColor: theme === 'dark' ? '#27f7f7' : '#666',
+                  boxShadow: theme === 'dark' ? '0 0 10px #27f7f7' : 'none'
+                }}
+              >
+                <span
+                  className={`inline-block w-4 h-4 transform transition-transform duration-200 ease-in-out rounded-full bg-white ${
+                    theme === 'dark' ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+            </div>
+            <button 
+              onClick={logout}
+              className="console-button w-full text-left"
+            >
+              {'>'} LOGOUT
+            </button>
+          </div>
         </div>
       )}
     </div>
