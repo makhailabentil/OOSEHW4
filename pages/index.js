@@ -164,7 +164,7 @@ export default function Home() {
           <main className="max-w-4xl mx-auto py-8 px-4">
             <div className="flex justify-between items-center mb-8">
               <div className="w-8"></div>
-              <h1 className="text-7xl text-center text-[#27f7f7]">
+              <h1 className="text-7xl text-center text-[#178f8f]">
                 {"DevNotes"}
               </h1>
               {user ? (

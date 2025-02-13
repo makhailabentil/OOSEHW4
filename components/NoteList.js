@@ -1,7 +1,10 @@
 import { format } from 'date-fns';
 import { useState } from 'react';
+import Pagination from './Pagination';
 
 export default function NoteList({ notes, onDelete, onEdit }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const notesPerPage = 5;
   const [selectedNote, setSelectedNote] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -12,6 +15,23 @@ export default function NoteList({ notes, onDelete, onEdit }) {
       .replace(/<[^>]*>/g, '') // Remove HTML tags
       .replace(/&nbsp;/g, ' ') // Replace &nbsp; with space
       .trim();
+  };
+
+  // Filter notes based on search term
+  const filteredNotes = notes.filter(note => 
+    note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    cleanContent(note.content).toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // Calculate pagination values
+  const indexOfLastNote = currentPage * notesPerPage;
+  const indexOfFirstNote = indexOfLastNote - notesPerPage;
+  const currentNotes = filteredNotes.slice(indexOfFirstNote, indexOfLastNote);
+  const totalPages = Math.ceil(filteredNotes.length / notesPerPage);
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    setSelectedNote(null); // Reset selected note when changing pages
   };
 
   // Helper function to check if a note has been edited
@@ -99,28 +119,31 @@ export default function NoteList({ notes, onDelete, onEdit }) {
           />
         </div>
         <div className="space-y-4">
-          {notes
-            .filter(note => 
-              note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-              cleanContent(note.content).toLowerCase().includes(searchTerm.toLowerCase())
-            )
-            .map((note) => (
-              <div 
-                key={note._id} 
-                className="note-card cursor-pointer hover:scale-[1.02] transition-transform"
-                onClick={() => setSelectedNote(note)}
-              >
-                <h3 className="text-lg">{'>'} {note.title}_</h3>
-                <p className="mt-2 opacity-90 line-clamp-2">
-                  {cleanContent(note.content)}
-                </p>
-                <p className="mt-2 text-sm opacity-70">
-                  {'>'} Posted: {format(new Date(note.createdAt), 'MMM-dd-yyyy_hh:mm:ss_aa')} 
-                </p>
-              </div>
-            ))}
+          {currentNotes.map((note) => (
+            <div 
+              key={note._id} 
+              className="note-card cursor-pointer hover:scale-[1.02] transition-transform"
+              onClick={() => setSelectedNote(note)}
+            >
+              <h3 className="text-lg">{'>'} {note.title}_</h3>
+              <p className="mt-2 opacity-90 line-clamp-2">
+                {cleanContent(note.content)}
+              </p>
+              <p className="mt-2 text-sm opacity-70">
+                {'>'} Posted: {format(new Date(note.createdAt), 'MMM-dd-yyyy_hh:mm:ss_aa')} 
+              </p>
+            </div>
+          ))}
         </div>
       </div>
+      
+      {filteredNotes.length > notesPerPage && (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 }

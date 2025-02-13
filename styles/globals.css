@@ -283,3 +283,27 @@ input::placeholder {
   }
 }
 
+/* Color picker styles */
+.ql-color .ql-picker-options {
+  background: var(--console-bg) !important;
+  border: 2px solid var(--border-glow) !important;
+  box-shadow: 0px 0px 10px 1px var(--box-shadow-glow) !important;
+}
+
+.ql-color .ql-picker-item {
+  border: 1px solid var(--border-glow) !important;
+}
+
+.ql-color .ql-picker-item:hover {
+  border-color: var(--text-glow) !important;
+}
+
+/* Color picker label */
+.ql-color .ql-picker-label {
+  border: 1px solid var(--border-glow) !important;
+}
+
+.ql-color .ql-picker-label:hover {
+  border-color: var(--text-glow) !important;
+}
+

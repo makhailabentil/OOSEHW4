@@ -3,34 +3,48 @@ import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
 
 // Dynamically import ReactQuill and configure modules
-const ReactQuill = dynamic(
-  async () => {
-    const { default: RQ } = await import('react-quill');
-    const { default: ImageResize } = await import('quill-image-resize-module-react');
-    const Quill = (await import('quill')).default;
-    const Parchment = Quill.import('parchment');
-    Quill.register('modules/imageResize', ImageResize);
+const ReactQuill = dynamic(async () => {
+  const { default: RQ } = await import('react-quill');
+  const { default: ImageResize } = await import('quill-image-resize-module-react');
+  
+  // Register Quill modules
+  if (typeof window !== 'undefined') {
+    RQ.Quill.register('modules/imageResize', ImageResize);
+  }
 
-    const modules = {
-      toolbar: [
-        [{ header: [1, 2, 3, false] }],
-        ['bold', 'italic', 'underline', 'strike'],
-        [{ align: [] }],
-        [{ list: 'ordered' }, { list: 'bullet' }],
-        ['link', 'image']
-      ],
-      imageResize: {
-        parchment: Parchment,
-        modules: ['Resize', 'DisplaySize']
-      }
-    };
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'color': [
+        '#27f7f7',  // Tron Blue 
+        '#FFFFFF', // White
+        '#000000', // Black 
+        '#FF0000', // Red)
+        '#0000FF', // Blue
+        '#00FF00', // Green
+        '#FF4D00', // Orange
+        '#62006D', // Purple
+        '#808080', // Gray
+        '#000749', // Navy Blue
+        '#FFFF00', // Yellow
+        '#FF0099' // Pink
+      ] }],
+      ['blockquote', 'code-block'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      ['link', 'image'],
+      ['clean']
+    ],
+    imageResize: {
+      parchment: RQ.Quill.import('parchment'),
+      modules: ['Resize', 'DisplaySize']
+    }
+  };
 
-    return function QuillEditor({ forwardedRef, ...props }) {
-      return <RQ ref={forwardedRef} modules={modules} {...props} />;
-    };
-  },
-  { ssr: false }
-);
+  return function Component({ forwardedRef, ...props }) {
+    return <RQ ref={forwardedRef} {...props} modules={modules} />;
+  };
+}, { ssr: false });
 
 export default function NoteForm({ onSubmit, user, initialData }) {
   const [title, setTitle] = useState(initialData ? initialData.title : '');
