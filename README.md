@@ -93,6 +93,41 @@ devnotes/
 - User-specific notes
 - Mobile-friendly image handling and compression
 
+## New (Nice-to-Have) Features
+
+### Theme Toggle (Light/Dark Mode)
+- Implemented a theme toggle system accessible from the profile dropdown
+- Light mode offers a softer color palette while maintaining the cyber aesthetic
+- Dark mode features the original Tron-inspired design
+- Theme preference is persisted across sessions using localStorage
+- Smooth transitions between themes
+
+### Enhanced Text Editor
+- Added color formatting options with a curated palette:
+  - Tron Blue (#27f7f7)
+  - White (#FFFFFF)
+  - Black (#000000)
+  - Red (#FF0000)
+  - Blue (#0000FF)
+  - Green (#00FF00)
+  - Orange (#FF4D00)
+  - Purple (#62006D)
+  - Gray (#808080)
+  - Navy Blue (#000749)
+  - Yellow (#FFFF00)
+  - Pink (#FF0099)
+- Color picker displays actual colors in dropdown menu
+- Visual color indicator in toolbar
+
+### Pagination
+- Notes are now displayed in pages of 5 notes each
+- Navigation controls include:
+  - Previous/Next buttons
+  - Current page indicator (Page X / Total)
+  - Disabled state for navigation limits
+- Maintains selected note state across page navigation
+- Responsive design that works on all screen sizes
+
 ## API Endpoints
 - `GET /api/notes` - Fetch user's notes (requires authentication)
 - `POST /api/notes` - Create new note (requires authentication)
@@ -161,4 +196,8 @@ For the best experience testing on mobile:
 3. Create notes with text and images
 4. Access your notes from any device
 
-**Note**: You may have to disable the adblocker for the gmail login prompt to work. 
+## Known Limitations
+- Image uploads are limited to 10MB
+- Rich text editor occasionally needs a refresh to load properly on slow connections
+- Color picker button doesn't visually indicate the currently selected color
+- Occasional adblocker issues with the gmail login prompt on mobile applications (adblocker must be disabled). 

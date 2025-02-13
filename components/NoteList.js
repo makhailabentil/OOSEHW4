@@ -29,6 +29,12 @@ export default function NoteList({ notes, onDelete, onEdit }) {
   const currentNotes = filteredNotes.slice(indexOfFirstNote, indexOfLastNote);
   const totalPages = Math.ceil(filteredNotes.length / notesPerPage);
 
+  // Reset to first page when search term changes
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset to first page on new search
+  };
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
     setSelectedNote(null); // Reset selected note when changing pages
@@ -113,7 +119,7 @@ export default function NoteList({ notes, onDelete, onEdit }) {
           <input
             type="text"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleSearch}
             placeholder="{'>'} SEARCH_NOTES_"
             className="console-input w-full"
           />
@@ -130,11 +136,15 @@ export default function NoteList({ notes, onDelete, onEdit }) {
                 {cleanContent(note.content)}
               </p>
               <p className="mt-2 text-sm opacity-70">
-                {'>'} Posted: {format(new Date(note.createdAt), 'MMM-dd-yyyy_hh:mm:ss_aa')} 
+                {'>'} {format(new Date(note.createdAt), 'MMM-dd-yyyy_hh:mm:ss_aa')}_ 
               </p>
             </div>
           ))}
         </div>
+        
+        {filteredNotes.length === 0 && (
+          <p className="text-center opacity-70">{'>'} NO_MATCHING_NOTES_FOUND_</p>
+        )}
       </div>
       
       {filteredNotes.length > notesPerPage && (

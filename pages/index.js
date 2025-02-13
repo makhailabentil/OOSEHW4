@@ -164,7 +164,7 @@ export default function Home() {
           <main className="max-w-4xl mx-auto py-8 px-4">
             <div className="flex justify-between items-center mb-8">
               <div className="w-8"></div>
-              <h1 className="text-7xl text-center text-[#178f8f]">
+              <h1 className="text-7xl text-center text-[#22b0b0]">
                 {"DevNotes"}
               </h1>
               {user ? (
@@ -176,11 +176,11 @@ export default function Home() {
 
             {loading ? (
               <div className="text-center py-12">
-                <p className="text-[#27f7f7]">{'>'} LOADING_</p>
+                <p className="text-[#22b0b0]">{'>'} LOADING_</p>
               </div>
             ) : !user ? (
               <div className="text-center py-12">
-                <h1 className="text-5xl text-center text-[#13ffff] mb-12 italic text-glow">
+                <h1 className="text-5xl text-center text-[#22b0b0] mb-12 italic text-glow">
                   {"Start Taking Notes Here!"}
                 </h1>
                 <div className="code-logo mb-20">
@@ -190,7 +190,7 @@ export default function Home() {
                     className="w-77 h-77 mx-auto filter-cyan hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <h2 className="text-2xl mb-6 text-[#27f7f7]">{'>'} ACCESS_REQUIRED</h2>
+                <h2 className="text-2xl mb-6 text-[#22b0b0]">{'>'} ACCESS_REQUIRED</h2>
                 <button onClick={login} className="console-button">
                   {'>'} LOGIN_WITH_GOOGLE
                 </button>
